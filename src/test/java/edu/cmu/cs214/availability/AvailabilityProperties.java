@@ -35,6 +35,34 @@ class AvailabilityProperties {
 
     // --- Milestone 1: add your stronger property here ---
 
+    @Property
+    void everyMinuteIsEitherBookedOrFree(@ForAll("scenarios") Scenario s) {
+        List<TimeInterval> free = calc.freeSlots(s.dayStart(), s.dayEnd(), s.bookings());
+        for (int m = 0; m < 1440; m++) {
+            boolean isFree = false;
+            for (TimeInterval slot : free) {
+                if (m >= slot.start() && m < slot.end()) {
+                    isFree = true;
+                    break;
+                }
+            }
+
+            boolean isBooked = false;
+            for (TimeInterval booking : s.bookings()) {
+                if (m >= booking.start() && m < booking.end()) {
+                    isBooked = true;
+                    break;
+                }
+            }
+
+            if (m >= s.dayStart() && m < s.dayEnd()) {
+                assertFalse(isFree && isBooked, "Minute " + m + " cannot be both free and booked");
+                assertFalse(!isFree && !isBooked, "Minute " + m + " within day must be either free or booked");
+            } else {
+                assertFalse(isFree, "Minute " + m + " is outside business hours but reported as free");
+            }
+        }
+    }
     /** Generates a business day plus a list of bookings (possibly unsorted, overlapping, or outside hours). */
     @Provide
     Arbitrary<Scenario> scenarios() {
