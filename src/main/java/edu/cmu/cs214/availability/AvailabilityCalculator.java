@@ -35,6 +35,9 @@ public class AvailabilityCalculator {
             }
             cursor = Math.max(cursor, b.end());
         }
+        if (cursor < dayEnd) {
+            free.add(new TimeInterval(cursor, dayEnd));
+        }
         return free;
     }
 }
