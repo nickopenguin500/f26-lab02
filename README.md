@@ -1,3 +1,4 @@
+Tools/Models: Antigravity, Gemini Pro
 # Lab 2 Starter: Availability Calculator
 
 A small reservation component. Given a room's bookings and the day's business hours,
