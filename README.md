@@ -1,4 +1,9 @@
 Tools/Models: Antigravity, Gemini Pro
+Weaknesses in the Test Suite:
+1. There were no tests for checking exact free slots with bookings that end before the end of the day. This is a controllability gap.
+2. The test suite didn't test the edge case of having no bookings (empty list). This is a controllability gap.
+3. returnedSlotsNeverOverlapABooking only checked that the returned slots don't overlap with bookings. This means that the test passed even though it returned an incomplete answer. This is an observability gap.
+4. High coverage didn't save this because the logic for adding the last free block didn't exist in the source code, so nothing was unexecuted. 
 # Lab 2 Starter: Availability Calculator
 
 A small reservation component. Given a room's bookings and the day's business hours,
